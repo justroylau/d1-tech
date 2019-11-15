@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liang.tech.mapper.SentenceMapper" >
+  <resultMap id="BaseResultMap" type="com.liang.tech.pojo.Sentence" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sentences" property="sentences" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sentences
+  </sql>
+  <select id="selectSentence" resultMap="BaseResultMap">
+  	select * from sentence
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sentence
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sentence
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.liang.tech.pojo.Sentence" >
+    insert into sentence (id, sentences)
+    values (#{id,jdbcType=INTEGER}, #{sentences,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.liang.tech.pojo.Sentence" >
+    insert into sentence
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sentences != null" >
+        sentences,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sentences != null" >
+        #{sentences,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liang.tech.pojo.Sentence" >
+    update sentence
+    <set >
+      <if test="sentences != null" >
+        sentences = #{sentences,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liang.tech.pojo.Sentence" >
+    update sentence
+    set sentences = #{sentences,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liang.tech.mapper.ArticlesMapper" >
+  <resultMap id="BaseResultMap" type="com.liang.tech.pojo.Articles" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="see" property="see" jdbcType="INTEGER" />
+    <result column="great" property="great" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="INTEGER" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="classid" property="classid" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="updatetime" property="updatetime" jdbcType="INTEGER" />
+    <result column="istop" property="istop" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.liang.tech.pojo.Articles" extends="BaseResultMap" >
+    <result column="contents" property="contents" jdbcType="LONGVARCHAR" />
+  </resultMap>
+   <resultMap id="ResultArticleCustom" type="com.liang.tech.pojo.ArticlesCustom" extends="ResultMapWithBLOBs" >
+    <result column="author" property="author" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, see, great, createtime, isdelete, remark, classid, userid, updatetime, 
+    istop
+  </sql>
+  <sql id="Blob_Column_List" >
+    contents
+  </sql>
+   <select id="findArticleLike" resultMap="ResultMapWithBLOBs" parameterType="com.liang.tech.pojo.ConditionInfo">
+  	SELECT articles.title,userid,articles.id,classid,see,great,isdelete,articles.createtime,articles.updatetime,articles.istop,articles.remark FROM articles,users where isdelete = 0
+  	<if test="classid != null" >
+  	 AND classid = #{classid,jdbcType=INTEGER} 
+  	</if>
+  	<if test="isadmin != 'admin'" >
+  	 AND (articles.remark != 'admin' OR articles.remark is null )
+  	</if>
+  	<if test="Keyword != null and Keyword != ''" >
+  	 AND (title LIKE concat(concat('%',#{Keyword}),'%') OR users.alias LIKE concat(concat('%',#{Keyword}),'%') OR contents LIKE concat(concat('%',#{Keyword}),'%'))
+  	</if>
+  	 AND articles.userid = users.id
+  	 order by see desc
+  </select>
+   <select id="selectByPrimaryKey" resultMap="ResultArticleCustom" parameterType="java.lang.Integer" >
+    select articles.id, users.alias as author, title, see, great, articles.createtime, isdelete, articles.remark,classid, userid,contents,updatetime,istop from articles,users where articles.id = #{id,jdbcType=INTEGER} AND articles.userid = users.id
+  </select>
+  <update id="seeAdd" parameterType="java.lang.Integer">
+  	UPDATE articles SET see = see + 1 where id = #{id,jdbcType=INTEGER}
+  </update>
+   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    UPDATE articles SET isdelete = '-1' WHERE id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.liang.tech.pojo.Articles" >
+    insert into articles (id, title, see, 
+      great, createtime, isdelete, 
+      remark, classid, userid, 
+      updatetime, istop, contents
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{see,jdbcType=INTEGER}, 
+      #{great,jdbcType=INTEGER}, #{createtime,jdbcType=INTEGER}, #{isdelete,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{classid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
+      #{updatetime,jdbcType=INTEGER}, #{istop,jdbcType=INTEGER}, #{contents,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.liang.tech.pojo.Articles" useGeneratedKeys="true" keyProperty="id">
+    insert into articles
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="see != null" >
+        see,
+      </if>
+      <if test="great != null" >
+        great,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="classid != null" >
+        classid,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="istop != null" >
+        istop,
+      </if>
+      <if test="contents != null" >
+        contents,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="see != null" >
+        #{see,jdbcType=INTEGER},
+      </if>
+      <if test="great != null" >
+        #{great,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null" >
+        #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=INTEGER},
+      </if>
+      <if test="istop != null" >
+        #{istop,jdbcType=INTEGER},
+      </if>
+      <if test="contents != null" >
+        #{contents,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liang.tech.pojo.Articles" >
+    update articles
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="see != null" >
+        see = #{see,jdbcType=INTEGER},
+      </if>
+      <if test="great != null" >
+        great = #{great,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null" >
+        classid = #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=INTEGER},
+      </if>
+      <if test="istop != null" >
+        istop = #{istop,jdbcType=INTEGER},
+      </if>
+      <if test="contents != null" >
+        contents = #{contents,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.liang.tech.pojo.Articles" >
+    update articles
+    set title = #{title,jdbcType=VARCHAR},
+      see = #{see,jdbcType=INTEGER},
+      great = #{great,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      classid = #{classid,jdbcType=INTEGER},
+      userid = #{userid,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=INTEGER},
+      istop = #{istop,jdbcType=INTEGER},
+      contents = #{contents,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liang.tech.pojo.Articles" >
+    update articles
+    set title = #{title,jdbcType=VARCHAR},
+      see = #{see,jdbcType=INTEGER},
+      great = #{great,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      classid = #{classid,jdbcType=INTEGER},
+      userid = #{userid,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=INTEGER},
+      istop = #{istop,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

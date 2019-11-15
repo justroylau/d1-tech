@@ -1,0 +1,301 @@
+
+<body id="bodyId">
+	
+	<!-- 消息模态框 -->
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="messageModal" style="z-index:99999;padding-top:50px;">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content" style="line-height:50px;">
+	      {{massgeModel}}
+	    </div>
+	  </div>
+	</div>
+	<!-- 个人资料模态框 -->
+	<div class="modal fade" id="personModal" tabindex="-1" role="persondialog" aria-labelledby="personModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:32%">
+			<div class="modal-content">
+				<div class="modal-header" style="border-bottom: 0px;">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel" style="text-align:left;"> 
+						个人资料修改
+					</h4>
+				</div>
+					<div style="width: 93%;margin: 0 auto;border: 0;">
+						<input type="text" class="form-control" placeholder="email" ng-model="users.email" style="margin-bottom:10px;">
+						<input type="text" class="form-control" placeholder="phone" ng-model="users.phone" style="margin-bottom:10px;">
+						<input type="text" class="form-control" placeholder="别名" ng-model="users.alias" style="margin-bottom:10px;">
+						<textarea class="form-control" rows="3" placeholder="备注" ng-model="users.remark" style="resize:none" ></textarea>
+					</div>
+				<div class="modal-footer" style="border-top: 0px;">
+					<button type="button" class="btn btn-primary" ng-click="setPerson()">
+						修改
+					</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						取消
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	
+	<!-- 注册修改密码框 -->
+	<div class="modal fade" id="userModal" tabindex="-1" role="userdialog" aria-labelledby="userModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:22%">
+			<div class="modal-content">
+				<div class="modal-header" style="border-bottom: 0px;">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel" style="text-align:left;"> 
+						{{userHandState}}
+					</h4>
+				</div>
+					<div style="width: 93%;margin: 0 auto;border: 0;">
+						<input type="text" class="form-control"  placeholder="用户名" ng-model="uname" style="margin-bottom:10px;">
+						<input type="password" class="form-control"  placeholder="密码"   ng-model="upwd" style="margin-bottom:10px;">
+						<input type="password" class="form-control"  placeholder="确认密码"   ng-model="checkupwd">
+					</div>
+				<div class="modal-footer" style="border-top: 0px;">
+					<button type="button" class="btn btn-primary" ng-click="updateUserBtn()" ng-show = "userHandState =='修改密码'">
+						修改
+					</button>
+					<button type="button" class="btn btn-primary" ng-click="registerUserBtn()" ng-show = "userHandState =='注册账号'">
+						注册
+					</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						取消
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	<!-- 确认（Modal）模态框 -->
+	<div class="modal fade" id="checkModal" tabindex="-1" role="checkdialog" aria-labelledby="checkModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:22%">
+			<div class="modal-content">
+				<div class="modal-header" style="border-bottom: 0px;">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel"> 
+						注意:此操作不可逆。
+					</h4>
+				</div>
+				<div class="modal-footer" style="border-top: 0px;">
+					<button type="button" class="btn btn-primary" ng-click="checkBtn()">
+						确认
+					</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						取消
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal）登录框 -->
+	<div class="modal fade" id="loginModal" tabindex="-1" role="logindialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:22%">
+			<div class="modal-content">
+				<div class="modal-header" style="border-bottom: 0px;">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel" style="text-align:left;"> 
+						需要进行身份验证
+					</h4>
+				</div>
+					<div style="width: 93%;margin: 0 auto;border: 0;">
+					
+					<input type="text" class="form-control"  placeholder="用户名" ng-model="uname" style="margin-bottom:10px;">
+					<input type="password" class="form-control"  placeholder="密码"   ng-model="upwd" id="upwdId"  ng-keyup="loginKeyup($event)">
+					</div>
+				<div class="modal-footer" style="border-top: 0px;">
+					<button type="button" class="btn btn-primary" ng-click="loginBtn()">
+						登陆
+					</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						取消
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!-- 模态框（Modal）发布框 -->
+	<div class="modal fade" id="articleModal" tabindex="-1" role="articledialog" aria-labelledby="articleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:70%">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						恭喜您,发现了新世界!然而并没有什么卵用。
+					</h4>
+				</div>
+				<div class="modal-body" style="max-height:{{htmlHeight*0.8}}px;overflow-y: auto;">
+					<input type="text" class="form-control" placeholder="文请输入标题." style="float:left;width:20%;" ng-model="articles.title">
+					<div class="form-group" style="float:left;margin-left:10px;margin-bottom:0px;">
+						<select class="form-control" ng-model="articles.classid">
+							<option ng-repeat = "items in classArray" ng-if = "items.superid != 0" value="{{items.id}}">{{items.classname}}</option>
+						</select>
+					</div>
+					<script id="editor" type="text/plain" style="margin-top:40px;width:100%;height:500px;"></script>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary" ng-click="insertArticleBtn()" ng-show="!updateState">
+						提交
+					</button>
+					<button type="button" class="btn btn-primary" ng-click="updateArticle()" ng-show="updateState">
+						修改
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	
+	<div class="modal fade" id="loadingModal">
+		<div style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50%;margin-left:-100px;margin-top:-10px">
+			<div class="progress progress-striped active"
+				style="margin-bottom: 0;">
+				<div class="progress-bar" style="width: 100%;"></div>
+			</div>
+			<h5 style="color:black">
+				<strong>正在加载，请稍等！</strong>
+			</h5>
+		</div>
+	</div>
+
+
+	<!-- 左边块 -->
+	<div class="left-block" id="left-id" ng-show = "leftShow">
+		<!-- 个人 -->	
+		<div style="min-height:30px;">
+			<div class="left_article-relevant setFontState pointer" style="padding-left:5%;"  ng-show="userid != ''" ng-click = "setPersonBtn()">
+				<span class="glyphicon glyphicon-user s1 pointer"></span>
+				<span ng-bind="alias" class="pointer"></span>
+			</div>
+		</div>
+		
+	
+		<!-- 头部搜索 -->
+		<div class="search-input">
+			<div class="col-lg-12">
+				<div class="input-group">
+					<input type="text" class="form-control" ng-keyup="searchInput($event)"  ng-model = "searchContent" placeholder="搜索">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" ng-click="findByLikeBtn()">
+							Search
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 分类导航 -->
+		<div class="classification">
+			<div class="category">
+				<span class="glyphicon glyphicon-tag" aria-hidden="true"></span><label>目录</label>
+			</div>
+			<div class="Catalog pointer" ng-click="checkClassBtn()">
+					<span class="glyphicon glyphicon-hdd itemicon" aria-hidden="true"></span>
+					<label class="pointer">所有文章</label>
+			</div>
+			<div class="items" ng-repeat = "items in classArray" >
+				<div class="Catalog pointer" ng-if="items.superid == '0'" ng-click="openBtn(items.id)">
+					<span class="glyphicon itemicon  {{superClasss[items.id-1].touchState?itemMinus:itemPlus}}" aria-hidden="true"></span>
+					<label class="pointer" ng-bind = "items.classname"></label>
+				</div>
+				<!-- itemClickCss == 'glyphicon-minus'  -->
+				<div class="articleList" ng-repeat = "sonitems in classArray" ng-if="sonitems.superid == items.id && superClasss[items.id-1].touchState" ng-click="checkClassBtn(sonitems.id)"> 
+					<div class="articItems pointer">
+						<span class="glyphicon glyphicon-link itemicon"></span>
+						<label class="pointer" ng-bind = "sonitems.classname"></label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 右边块 -->
+	<div class="right-block" id="right-id">
+		<div class="article-relevant setFontState">
+			<span class="glyphicon glyphicon-th-list s1 pointer" ng-click="hideleftBtn()"></span>
+			<span class="glyphicon {{!setFontState?'glyphicon-font':'glyphicon-text-background'}} s2 pointer" ng-click="setFontSize()"></span>
+			<div style="min-width:150px;float:right;height:20px;">
+			<span class="glyphicon glyphicon-eye-open s3" ng-show="articleShow">阅览数(<span ng-bind = "articleDetail.see"></span>)</span>
+			</div>
+			<!-- <span class="glyphicon glyphicon-thumbs-up s4 pointer">赞(33)</span> -->
+			<div style="position: fixed;left: 40%;"><span ng-bind="sentenceInfo"></span></div>
+		</div>
+		
+		<div class="article-list minHeight" ng-show="!articleShow">
+			<div class="items"  id="pageMinHeight">
+				<div class="itemtitle pointer" ng-repeat = "titleList in articleTitles" ng-click="ArticleDetailIdBtn(titleList.id)">
+					<div style="float:right;">
+					<span class="glyphicon glyphicon-edit" style="" ng-show="userid == titleList.userid || users.roles == 'admin' || users.roles == 'super'" ng-click="updateArticleBtn(titleList.id);$event.stopPropagation();"></span>
+					<span class="glyphicon glyphicon-trash" style="margin-right:20px;" ng-show="userid == titleList.userid || users.roles == 'admin' || users.roles == 'super'" ng-click="deleteArticleBtn(titleList.id);$event.stopPropagation();"></span>
+					</div>
+					
+					<span class="glyphicon glyphicon-list-alt itemicon"></span>
+					<label class="pointer" ng-bind = "$index+1+'、'"></label>
+					<label class="pointer" ng-bind = "titleList.title"></label>
+					<span class="glyphicon glyphicon-fire" style="color:red;margin-left:10px;" ng-show="titleList.istop == 1"></span>
+				</div>
+			</div>
+			<!-- 分页插件 -->
+			<tm-pagination conf="paginationConf" style="margin-left: 18px;font-size: 10px;overflow: hidden;"></tm-pagination>
+		</div>
+		
+		<!-- 文章详情 -->
+		<div class="article-detial minHeight" ng-show="articleShow">
+			<div class="article-title"><span ng-bind = "articleDetail.title"></span></div>
+			<div class="article-author"><span>由 <span ng-bind = "articleDetail.author"></span>创建于<span ng-bind = "articleDetail.createtime*1000 | date:'yyyy-MM-dd HH:mm:ss'"></span></span>
+			<span style="margin-left:10px;">最后编辑时间(<span ng-bind= "articleDetail.updatetime*1000 | date:'yyyy-MM-dd HH:mm:ss'"></span>)</span>
+			</div>
+			<div class="article-content">
+				<!-- {{articleDetail.contents}} -->
+				<p ng-bind-html="articleDetail.contents" style="text-align:initial"></p>
+			</div>
+		</div>
+		
+		
+		<div class="pro-footer setFontState">
+			Copyright © 2018 objectl.com && 994899386@qq.com All Rights Reserved.
+		</div>
+	</div>
+	
+</body>
+
+
+<script type="text/javascript">
+	
+
+var winHeight = $(window).innerHeight();
+var winwidth = $(window).innerWidth();
+$("#left-id").height(winHeight);
+$("#right-id").height(winHeight);
+$(".minHeight").css("min-height", winHeight-130+"px");
+$("#pageMinHeight").css("min-height", winHeight-150+"px");
+//实例化编辑器
+//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+var ue;
+UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+    UE.Editor.prototype.getActionUrl = function(action) {
+        if (action == 'uploadimage' || action == 'uploadscrawl') {
+            return 'https://objectl.com/imgUpload';
+            //'http://localhost:8080/imgUpload';为方法imgUpload的访问地址
+        }else if(action == 'uploadfile'){
+        	return 'https://objectl.com/fileUpload';
+        }else if(action == 'uploadvideo'){
+        	return 'https://objectl.com/videoUpload';
+        }else{
+            return this._bkGetActionUrl.call(this, action);
+        }
+    }
+
+
+	</script>
